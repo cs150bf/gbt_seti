@@ -31,6 +31,7 @@ install: $(PROGS)
 	cp -f $(PROGS) $(INSTALL_DIR)
 slalib: libsla$(LIBSUFFIX)
 	cd slalib ; $(FC) -o sla_test sla_test.f -fno-second-underscore -L$(SETI_GBT)/lib -lsla
+	export LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):$(SETI_GBT)/lib &&  \
 	slalib/sla_test
 libsla$(LIBSUFFIX):
 	cd slalib ; $(FC) $(FFLAGS) -fno-second-underscore -c -I. *.f *.F
