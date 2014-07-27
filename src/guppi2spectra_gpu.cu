@@ -1,5 +1,6 @@
 #include <cuda.h>
 #include "guppi2spectra_gpu.h"
+#include <stdio.h>
 
 extern "C" void explode_wrapper(unsigned char *channelbufferd, cufftComplex * voltages, int veclen);
 extern "C" void detect_wrapper(cufftComplex * voltages, int veclen, int fftlen, float *bandpassd, float *spectrumd);
@@ -82,7 +83,12 @@ void detect_wrapper(cufftComplex * voltages, int veclen, int fftlen, float *band
 
 
 void setQuant(float *lut) {
-	cudaMemcpyToSymbol("gpu_qlut", lut, 16, 0, cudaMemcpyHostToDevice);
+#if CUDA_VERSION >= 4500
+        fprintf(stderr, "loading lookuptable...%s\n", cudaGetErrorString(cudaMemcpyToSymbol(gpu_qlut, lut, 16, 0, cudaMemcpyHostToDevice)));
+#else
+        fprintf(stderr, "loading lookuptable...%s\n", cudaGetErrorString(cudaMemcpyToSymbol("gpu_qlut", lut, 16, 0, cudaMemcpyHostToDevice)));
+#endif
+
 }
 
 void normalize_wrapper(float * tree_dedopplerd_pntr, float *mean, float *stddev, int tdwidth) {

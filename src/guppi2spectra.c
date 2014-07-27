@@ -280,8 +280,12 @@ if(getenv("SETI_GBT") == NULL){
 	exit(0);
 }
 
+if (cudaSetDevice(gpu_spec.gpudevice) != cudaSuccess){
+        fprintf(stderr, "Couldn't set GPU device %d\n", gpu_spec.gpudevice);
+        exit(0);
+}
 
-
+HANDLE_ERROR ( cudaThreadSynchronize() );
 
 
 
@@ -294,11 +298,6 @@ float lookup[4];
  lookup[3] = -3.3358750;
 
 setQuant(lookup);
-
-if (cudaSetDevice(gpu_spec.gpudevice) != cudaSuccess){
-	fprintf(stderr, "Couldn't set GPU device %d\n", gpu_spec.gpudevice);
-	exit(0);
-}
 
 HANDLE_ERROR ( cudaThreadSynchronize() );
 /* --------------------------------- */
@@ -819,6 +818,7 @@ char *fitsdata;
 	nframes = chanbytes / gpu_spec->cufftN;
 
 	
+	   //fprintf(stderr, "0x%08x 0x%08x", subint[100], subint[1]);
 
 	   //fprintf(stderr, "%f\n", tframe);
 	   cudaThreadSynchronize();
@@ -835,6 +835,8 @@ char *fitsdata;
 	   
 	   cudaThreadSynchronize();
 	   HANDLE_ERROR( cudaMemcpy(gpu_spec->spectra, gpu_spec->spectrumd, chanbytes * nchans * sizeof(float), cudaMemcpyDeviceToHost) );
+ 	    //fprintf(stderr, "\n\n%f %f\n\n", gpu_spec->spectra[100], gpu_spec->spectra[1]);
+	//	exit(0);
 	   	   
 	   //for(k = 0; k < nframes; k++) {
 		//	for(j = 0; j < gpu_spec->cufftN; j++) {
