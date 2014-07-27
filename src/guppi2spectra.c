@@ -848,7 +848,7 @@ char *fitsdata;
 
 //meta information:
 //RA (double), DEC (double), MJD (double), Center frequency (double)
-sprintf(tempfilname, "%s/%s.%f.fits",gpu_spec->scratchpath, gpu_spec->rawinput->pf.hdr.source, gpu_spec->rawinput->pf.hdr.fctr);
+sprintf(tempfilname, "%s/%s.%f_%ld.fits",gpu_spec->scratchpath, gpu_spec->rawinput->pf.hdr.source, gpu_spec->rawinput->pf.hdr.fctr, gpu_spec->rawinput->pf.hdr.MJD_epoch);
 outputfile = fopen(tempfilname, "a+");
 //for(i=0;i<chanbytes * nchans;i++) {
 //fprintf(outputfile, "%f\n", gpu_spec->spectra[i]);

@@ -26,7 +26,6 @@ INSTALL_DIR = ../bin
 all: slalib $(PROGS) gpu
 clean: 
 	rm -f $(PROGS) *~ *.o
-	rm -f slalib/*.o 
 	exit 0
 install:$(PROGS)
 	mkdir -p $(INSTALL_DIR) && \
