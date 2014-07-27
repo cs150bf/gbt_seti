@@ -1,10 +1,7 @@
-OPT64 = /opt/vegas
 FC = gfortran
 FFLAGS = -g -fPIC
 OS = Linux
 BINDIR = $(SETI_GBT)/bin
-CUDA = /opt/vegas/cuda
-CUDAC = $(CUDA)/bin/nvcc
 # Linux is the first choice
 ifeq ($(OS),Linux)
         LIBSUFFIX = .so
@@ -24,18 +21,23 @@ OBJS  = guppi_status.o guppi_databuf.o guppi_udp.o guppi_error.o \
 	write_psrfits.o read_psrfits.o misc_utils.o \
 	fold.o polyco.o hget.o hput.o sla.o downsample.o barycenter.o chkio.o
 LIBS = -L$(OPT64)/lib -I$(OPT64)/include -L$(CUDA)/lib64 -lfftw3f_threads -lcfitsio -L$(SETI_GBT)/lib -lsla -lm -lgsl -lgslcblas -lpthread -I/usr/include/cfitsio -lfftw3f -L/usr/lib64/mysql -lmysqlclient -lcufft -lcudart
-all: slalib $(PROGS) gpu
-clean:
-	rm -f $(PROGS) *~ *.o 
 INSTALL_DIR = ../bin
-install: $(PROGS)
+
+all: slalib $(PROGS) gpu
+clean: 
+	rm -f $(PROGS) *~ *.o
+	rm -f slalib/*.o 
+	exit 0
+install:$(PROGS)
 	mkdir -p $(INSTALL_DIR) && \
 	cp -f $(PROGS) $(INSTALL_DIR)
 slalib: libsla$(LIBSUFFIX)
 	cd slalib ; $(FC) -o sla_test sla_test.f -fno-second-underscore -L$(SETI_GBT)/lib -lsla
-	export LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):$(SETI_GBT)/lib &&  \
 	slalib/sla_test
 libsla$(LIBSUFFIX):
+	@if [ -z "${SETI_GBT}" ]; \
+	then echo "Error: environment variable SETI_GBT is not set!"; exit 2; \
+	else echo "SETI_GBT="${SETI_GBT}; fi
 	cd slalib ; $(FC) $(FFLAGS) -fno-second-underscore -c -I. *.f *.F
 	rm slalib/sla_test.o
 	cd slalib ; $(FC) $(LIBCMD) -o $(SETI_GBT)/lib/libsla$(LIBSUFFIX) -fno-second-underscore *.o
