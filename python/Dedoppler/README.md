@@ -85,14 +85,22 @@ See `/queencow/dedoppler_test/*.log`, `/queencow/dedoppler_test/*.dat` for searc
 &nbsp;
 
 > MJD: 56553.034967189247	RA:   257.063400000000	DEC:    12.179900000000	DELTAT:     0.330301440000	DOPPLER:     0.000000000000
+>
 > `---------------------`
+>
 > Top Hit #1: 	Drift Rate:   0.062781	Uncorrected Frequency:    8419.278882	Corrected Frequency:    8418.606974	Index: 593508
+>
 > Freqs: (   8419.278107 ...    8419.279654), DELTAF:   0.00000303 (MHz)
+>
 > [a matrix....]
 >
+>
 > Top Hit #2: 	Drift Rate:   0.125561	Uncorrected Frequency:    8419.278882	Corrected Frequency:    8418.606974	Index: 593508
+>
 > Freqs: (   8419.278107 ...    8419.279654), DELTAF:   0.00000303 (MHz)
+>
 > [matrix (part of the spectra)]
+>
 >
 > Top Hit #3:...
 
@@ -106,14 +114,17 @@ See `/queencow/dedoppler_test/*.log`, `/queencow/dedoppler_test/*.dat` for searc
 
 
 > **`$ python dedopp.py  <FULL_PATH_TO_INPUT_FITS_FILE> [OPTIONS]`**
+>
 > **`$ ./dedopp.py  <FULL_PATH_TO_INPUT_FITS_FILE> [OPTIONS]`**
 
 &nbsp;
 
-> **`$ ./plot_results.py <FULL_PATH_TO_TOP_HITS_FILE>`**>
+> **`$ ./plot_results.py <FULL_PATH_TO_TOP_HITS_FILE>`**
+>
 > A bunch of \*.pdf files will show up in the same directory as the input file.
 > 
 > **Example:**
+>
 > **`$ ./plot_results.py /queencow/dedoppler_test/VOYAGER1.8448.437500_56553.034965_6.dat`**
 >
 
