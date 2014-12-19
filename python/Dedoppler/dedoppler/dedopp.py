@@ -197,7 +197,7 @@ class DedopplerTask:
 
             drift_rate = -1 * k * fits_obj.drift_rate_resolution
             logger.debug("Drift rate: %f"%drift_rate)
-            if drift_rate < self.max_drift and drift_rate > self.min_drift:
+            if abs(drift_rate) < self.max_drift and abs(drift_rate) > self.min_drift:
                  n_candi, max_val = candsearch(spectrum, specstart, specend, self.snr, \
                                 drift_rate, fits_obj.header, \
                                 fftlen, tdwidth, channel, max_val, 1)
